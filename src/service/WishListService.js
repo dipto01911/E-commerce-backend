@@ -8,10 +8,10 @@ const objectID=mongoose.Types.ObjectId;
   let user_id=req.headers['user_id']
   let reqBody=req.body;
   reqBody.userID=user_id;
-  let data =await WishListModel.updateOne(reqBody,{$set:reqBody},{upsert:true})
-  return{status:true,message:'Product Added into WishList',data:data}
+  await WishListModel.updateOne(reqBody,{$set:reqBody},{upsert:true})
+  return{status:true,message:'Product Added into WishList'}
   }catch(err){
-    return{status:false,data:err}
+    return{status:false,message:'Something went wrong !'}
   }
  }
 
@@ -24,12 +24,12 @@ const objectID=mongoose.Types.ObjectId;
         let JoinwithProduct={$lookup:{from:'products',localField:'productID',foreignField:'_id',as:'product'}}
         let JoinwithBrand={$lookup:{from:'brands',localField:'product.brandID',foreignField:'_id',as:'Brand'}}
         let JoinwithCat={$lookup:{from:'categories',localField:'product.categoryID',foreignField:'_id',as:'Category'}}
-        let JoinwithProfile={$lookup:{from:'profiles',localField:'userID',foreignField:'userID',as:'Profile'}}
+      //  let JoinwithProfile={$lookup:{from:'profiles',localField:'userID',foreignField:'userID',as:'Profile'}}
 
         let unwind1={$unwind:'$product'}
         let unwind2={$unwind:'$Brand'}
         let unwind3={$unwind:'$Category'}
-        let unwind4={$unwind:'$Profile'}
+        //let unwind4={$unwind:'$Profile'}
         let projectionStage={$project:{
            ' _id':0,
            'createdAt':0,
@@ -45,15 +45,15 @@ const objectID=mongoose.Types.ObjectId;
            'Category._id':0,
             'Category.createdAt':0,
             'Category.updatedAt':0,
-            'Profile._id':0,
-            'Profile.userID':0,
-            'Profile.createdAt':0,
-             'Profile.updatedAt':0
+            // 'Profile._id':0,
+            // 'Profile.userID':0,
+            // 'Profile.createdAt':0,
+            //  'Profile.updatedAt':0
 }}
 
       let data=await WishListModel.aggregate([matchStage,JoinwithProduct,
-      JoinwithBrand,JoinwithCat,JoinwithProfile,unwind1,unwind2,
-      unwind3,unwind4,projectionStage])
+      JoinwithBrand,JoinwithCat,unwind1,unwind2,
+      unwind3,projectionStage])
          return {status:true,message:'WishList Details Information',data:data}
        
        

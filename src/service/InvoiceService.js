@@ -1,9 +1,33 @@
 
- const mongoose=require('mongoose')
-const FormData=require('form-data')
-const axois=require('axios')
-const objectID=mongoose.Types.ObjectId;
+const mongoose=require('mongoose')
+const objectID= mongoose.Types.ObjectId;
+const axios=require('axios')
+const FormData=require('form-data');
 const { CartModel } = require('../model/CartListModel');
+
+// const CreateInvoiceService=async(req)=>{
+//   try{
+    
+// let user_id=new objectID(req.headers['user_id'])
+// let email=req.headers['email']
+
+// let matchStage={$match:{userID:user_id}}
+// let JoinWithproduct={$lookup:{from:'products',localField:'productID',foreignField:'_id',as:'product'}}
+// let unwind1={$unwind:'$product'}
+// let CartProduct= await CartModel.aggregate([matchStage,JoinWithproduct,unwind1])
+
+// return{status:true,data:CartProduct}
+//   }catch(err){
+//     return{status:false,message:'Something went wrong',data:err.toString()}
+//   }
+// }
+
+// const mongoose=require('mongoose')
+//const FormData=require('form-data')
+//const objectID=mongoose.Types.ObjectId;
+//const { CartModel } = require('../model/CartListModel');
+
+
 const { ProfileModel } = require('../model/ProfileModel');
 const { InvoiceModel } = require('../model/InvoiceModel');
 const { InvoiceProductModel } = require('../model/InvoiceProductModel');
@@ -146,7 +170,7 @@ form.append('store_id',Payment[0]['store_id'])
     form.append('product_amount','According Invoice') 
     form.append('product_name','According Invoice')
 
- let SSLRes= await axois.post(Payment[0]['init_url'],form)
+ let SSLRes= await axios.post(Payment[0]['init_url'],form)
  console.log(SSLRes.data)
   return {status:true,data:SSLRes.data}
 
@@ -238,5 +262,6 @@ const InvoiceProductListService=async(req)=>{
 
 
 module.exports={CreateInvoiceService,PaymentFailService,PaymentCancelService,
-   PaymentIPNService,PaymentSuccessService,InvoiceListService,InvoiceProductListService
-}
+   PaymentIPNService,PaymentSuccessService,InvoiceListService,InvoiceProductListService,
+   CreateInvoiceService
+}  

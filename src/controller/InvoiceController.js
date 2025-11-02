@@ -12,17 +12,17 @@ const{CreateInvoiceService,PaymentFailService,PaymentCancelService,
 
    const PaymentSucess=async(req,res)=>{
       await PaymentSuccessService(req)
-      //return res.redirect('/orders')
+      return res.redirect('http://localhost:5173/profile')
    }
 
    const PaymentFail=async(req,res)=>{
       PaymentFailService(req);
-      //return res.redirect('/orders')
+      return res.redirect('/orders')
    }
   
    const PaymentCancel=async(req,res)=>{
       await PaymentCancelService(req)
-      return res.redirect('/orders')
+     return res.redirect('/orders')
    }
 const PaymentIPN=async(req,res)=>{
    let result= await PaymentIPNService(req)

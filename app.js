@@ -7,6 +7,7 @@
  const helmet=require('helmet')
  const cors=require('cors')
  const cookieParser=require('cookie-parser')
+ const path=require('path')
 
 const {DATA_LIMIT,URL_ENCODE,RATE_LIMIT,MAX_LIMIT,WEB_CACHE}=require('./config')
 const Routes=require('./src/routes/route')
@@ -42,5 +43,15 @@ app.set('etag',WEB_CACHE)
 //Routing End Point
 
 app.use('/api/v1',Routes)
+
+app.use(express.static('client/dist'))
+
+// app.get('*',function(req,res){
+//   res.sendFile(path.resolve(__dirname,'client','dist','index.html'))
+// })
+
+app.get(/.*/,function(req,res){
+    res.sendFile(path.resolve(__dirname,"client","dist","index.html"))
+});
 
  module.exports=app;

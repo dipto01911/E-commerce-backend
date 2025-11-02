@@ -151,7 +151,7 @@ let detailsProjection={$project:{
     'Details._id':0,
     'Details.createdAt':0,
     'Details.updatedAt':0,
-    'Details.des':0
+    
 }}
 
        let data=await ProductModel.aggregate([matchStage,JoinWithbrand,JoinWithCategories,JoinWithDetails,unwind1,unwind2,unwind3,brandProjection,catProjection,detailsProjection])
@@ -274,11 +274,10 @@ let unwind2={$unwind:'$Category'}
 const ProductCreateReviewService=async(req)=>{
  try{
  let user_id=req.headers['user_id']
- let product_id=req.params.product_id;
  let reqBody=req.body;
  let data=await ReviewModel.create({
    userID:user_id,
-   productID:product_id,
+   productID:reqBody['productID'],
    ...reqBody 
  })
  return{status:true,message:'Review added',data:data}
@@ -301,6 +300,8 @@ const ProductReviewListService=async(req)=>{
   }catch(err){
    return {status:true,data:err.toString()}
   }
+
+  
 }
 
   module.exports={ReadBrandListService,ReadCategoryListService,

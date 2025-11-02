@@ -136,6 +136,9 @@ router.get('/ReadCartList',AuthVerify,ReadCart)
 router.get('/CreateInvoice',AuthVerify,CreateInvoice)
 router.get('/InvoiceList',AuthVerify,InvoiceList)
 router.get('/InvoiceProductList/:invoice_id',AuthVerify,InvoiceProductList)
+
+//Pyment sucess,payment cancel,paymentIpn,paymentfail url.this url will be hit after ssl commerz transaction status
+
 router.post('/PaymentSucess/:trxID',PaymentSucess)
 router.get('/PaymentCancel/:trxID',PaymentCancel)
 router.post('/PaymentIPN/:trxID',PaymentIPN)
@@ -145,6 +148,6 @@ router.post('/PaymentFail/:trxID',PaymentFail)
 router.get('/FeatureList',FeatureList)
  //Create Reviews
 
- router.post('/CreateReview/:product_id',AuthVerify,ProductCreateReview)
+router.post('/CreateReview',AuthVerify,ProductCreateReview)
 router.get('/ReviewList',ProductReviewList)
 module.exports=router;
